@@ -10,6 +10,7 @@ export const MessagePayload = z.object({
     message: z.string(),
     name: z.string(),
     upvotes: z.number(),
+    chatId: z.string()
 });
 
 export const OutgoingMessages = z.discriminatedUnion("type", [

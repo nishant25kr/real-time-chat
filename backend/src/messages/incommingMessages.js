@@ -3,38 +3,38 @@ import { z } from "zod";
 export const SupportedMessage = {
     JoinRoom: "JOIN_ROOM",
     SendMessage: "SEND_MESSAGE",
-    UpvoteMessage: "UPVOTE_MESSAGE",
-};
+    Upvote: "UPVOTE_MESSAGE",
+}
 
 export const InitMessage = z.object({
     name: z.string(),
     userId: z.string(),
-    roomId: z.string(),
-});
+    roomId: z.string()
+}).strict();
 
 export const UserMessage = z.object({
     userId: z.string(),
     roomId: z.string(),
-    message: z.string(),
-});
+    message: z.string()
+}).strict();
 
-export const Upvote = z.object({
+export const UpvoteMessage = z.object({
     userId: z.string(),
     roomId: z.string(),
-    chatId: z.string(),
-});
+    chatId: z.string()
+}).strict();
 
-export const IncomingMessages = z.discriminatedUnion("type", [
+export const IncomingMessageSchema = z.discriminatedUnion("type", [
     z.object({
         type: z.literal(SupportedMessage.JoinRoom),
-        payload: InitMessage,
+        payload: InitMessage
     }),
     z.object({
         type: z.literal(SupportedMessage.SendMessage),
-        payload: UserMessage,
+        payload: UserMessage
     }),
     z.object({
-        type: z.literal(SupportedMessage.UpvoteMessage),
-        payload: Upvote,
-    }),
+        type: z.literal(SupportedMessage.Upvote),
+        payload: UpvoteMessage
+    })
 ]);
