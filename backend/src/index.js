@@ -33,7 +33,6 @@ wss.on("connection", (ws) => {
     console.log("Client connected");
 
     ws.on("message", (data) => {
-        console.log("Hello from here")
         let parsed;
 
         try {
@@ -47,6 +46,7 @@ wss.on("connection", (ws) => {
             ws.send(JSON.stringify({ error: "Invalid message format" }));
             return;
         }
+        console.log("Received message:", result.data);
 
         messageHandler(ws, result.data);
         printState()
@@ -87,8 +87,10 @@ function messageHandler(ws, message) {
             break;
         }
 
-        case SupportedMessage.UpvoteMessage: {
+        case SupportedMessage.Upvote: {
             const { roomId, chatId, userId } = message.payload;
+
+            console.log("hello from upvotes message",chatId + roomId + userId)
 
             const chat = store.upvote(userId, roomId, chatId);
             if (!chat) return;

@@ -49,14 +49,24 @@ export class UserManager {
         const payload = JSON.stringify(message);
 
         room.users.forEach(({ conn, id }) => {
-            if (id === userId) return;
-
             try {
-                if (conn && conn.connected) {
-                    conn.sendUTF(payload);
+                // The server uses the 'ws' package. Use readyState and send().
+                // readyState === 1 means OPEN.
+                if (conn && conn.readyState === 1) {
+                    conn.send(payload);
                 }
             } catch (err) {
                 console.error("Send failed:", err.message);
+            }
+        });
+    }
+
+    removeSocket(ws){
+        // Remove any users whose socket matches the one that closed
+        this.rooms.forEach((room, roomId) => {
+            room.users = room.users.filter(user => user.conn !== ws);
+            if (room.users.length === 0) {
+                this.rooms.delete(roomId);
             }
         });
     }
@@ -72,6 +82,6 @@ export class UserManager {
     });
 
     return snapshot;
-}
+    }
 
 }
