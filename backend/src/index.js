@@ -3,9 +3,12 @@ import { WebSocketServer } from "ws";
 import { SupportedMessage, IncomingMessageSchema } from "./messages/incommingMessages.js";
 import { UserManager } from "./UserManager.js";
 import { InMemoryStore } from "./store/InMemoryStore.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 const userManager = new UserManager();
 const store = new InMemoryStore();
@@ -15,7 +18,7 @@ app.get("/", (_, res) => {
 });
 
 const server = app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+    console.log(`Server running`);
 });
 
 const wss = new WebSocketServer({ server });
