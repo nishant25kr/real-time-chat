@@ -131,8 +131,8 @@ function App() {
             onClick={() => UpvoteMessage(userIdRef.current, "1", msg.id)}
             className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 bg-gray-100 hover:bg-gray-200 border border-gray-300 hover:border-gray-400 transition-colors flex-shrink-0"
           >
-            <span className="text-gray-600 text-xs">▲</span>
-            <span className="text-gray-700 text-xs font-medium">
+            <span className="text-gray-100 text-xs">▲</span>
+            <span className="text-gray-100 text-xs font-medium">
               {msg.upvotes}
             </span>
           </button>
