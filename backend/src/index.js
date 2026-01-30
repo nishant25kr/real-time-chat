@@ -11,7 +11,7 @@ const userManager = new UserManager();
 const store = new InMemoryStore();
 
 app.get("/", (_, res) => {
-    res.json({ message: "Server is Up" });
+    res.json({ message: "Hello from Real-Time Chat Server!" });
 });
 
 const server = app.listen(PORT, () => {
@@ -46,10 +46,8 @@ wss.on("connection", (ws) => {
             ws.send(JSON.stringify({ error: "Invalid message format" }));
             return;
         }
-        console.log("Received message:", result.data);
 
         messageHandler(ws, result.data);
-        printState()
     });
 
     ws.on("close", () => {
@@ -89,8 +87,6 @@ function messageHandler(ws, message) {
 
         case SupportedMessage.Upvote: {
             const { roomId, chatId, userId } = message.payload;
-
-            console.log("hello from upvotes message",chatId + roomId + userId)
 
             const chat = store.upvote(userId, roomId, chatId);
             if (!chat) return;
